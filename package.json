@@ -64,7 +64,6 @@
     "ember-disable-prototype-extensions": "^1.1.2",
     "ember-export-application-global": "^2.0.0",
     "ember-load-initializers": "^1.0.0",
-    "ember-native-dom-event-dispatcher": "^0.6.4",
     "ember-resolver": "^4.5.0",
     "ember-source": "~2.18.0",
     "ember-source-channel-url": "^1.0.1",
