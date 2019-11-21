@@ -1,4 +1,3 @@
-import { merge } from '@ember/polyfills';
 import { run } from '@ember/runloop';
 import { resolve } from 'rsvp';
 var torii, app;
@@ -51,9 +50,13 @@ test("Opens a popup to Google with request_visible_actions", function(assert){
   assert.expect(1);
   configure({
     providers: {
-      'google-oauth2-bearer': merge(providerConfig, {
-        requestVisibleActions: "http://some-url.com"
-      })
+      'google-oauth2-bearer': Object.assign(
+        {},
+        providerConfig,
+        {
+          requestVisibleActions: "http://some-url.com"
+        }
+      )
     }
   });
   mockPopup.open = function(url){
