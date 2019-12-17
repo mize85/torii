@@ -37,7 +37,7 @@ jobs:
     - stage: "Tests"
       name: "Tests"
       script:
-        - npm run lint:hbs
+        - yarn lint:hbs
         - yarn lint:js
         - yarn test
 
