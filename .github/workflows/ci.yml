@@ -61,10 +61,9 @@ jobs:
           - ember-lts-3.12
           - ember-lts-3.16
           - ember-lts-3.28
-          - ember-release
-          - ember-beta
-          - ember-canary
-          - ember-classic
+          # - ember-release
+          # - ember-beta
+          # - ember-canary
 
     steps:
       - uses: actions/checkout@v3
