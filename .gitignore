@@ -24,6 +24,7 @@ testem.log
 *.un~
 *.swp
 .ackrc
+.tool-versions
 
 # ember-try
 .node_modules.ember-try/

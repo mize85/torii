@@ -44,7 +44,8 @@
     "build": "ember build",
     "lint:js": "eslint ./*.js addon addon-test-support app config lib server test-support tests",
     "start": "ember serve",
-    "test": "ember try:each"
+    "test:ember": "ember test",
+    "test": "yarn test:ember"
   },
   "dependencies": {
     "ember-cli-babel": "^6.11.0"
