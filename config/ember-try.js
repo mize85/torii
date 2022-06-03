@@ -1,137 +1,94 @@
-'use strict';
+"use strict";
 
-const getChannelURL = require('ember-source-channel-url');
+const getChannelURL = require("ember-source-channel-url");
 
-module.exports = function() {
-  return Promise.all([
-    getChannelURL('release'),
-    getChannelURL('beta'),
-    getChannelURL('canary'),
-  ]).then((urls) => {
-    return {
-      useYarn: true,
-      scenarios: [
-        {
-          name: 'Ember 1.12.1',
-          bower: {
-            dependencies: {
-              'ember': '1.12.1'
-            }
+module.exports = async function () {
+  return {
+    useYarn: true,
+    scenarios: [
+      {
+        name: "ember-lts-2.18",
+        npm: {
+          devDependencies: {
+            "ember-source": "~2.18.0",
           },
-          npm: {
-            devDependencies: {
-              'ember-source': null,
-              'ember-native-dom-event-dispatcher': null
-            }
-          }
         },
-        {
-          name: 'Ember 1.13',
-          bower: {
-            dependencies: {
-              'ember': '~1.13.0'
-            }
+      },
+      {
+        name: "ember-lts-3.12",
+        npm: {
+          devDependencies: {
+            "ember-source": "~3.12.0",
+            "ember-native-dom-event-dispatcher": null,
           },
-          npm: {
-            devDependencies: {
-              'ember-source': null,
-              'ember-native-dom-event-dispatcher': null
-            }
-          }
         },
-        {
-          name: 'ember-lts-2.4',
-          bower: {
-            dependencies: {
-              'ember': 'components/ember#lts-2-4'
-            },
-            resolutions: {
-              'ember': 'lts-2-4'
-            }
+      },
+      {
+        name: "ember-lts-3.16",
+        npm: {
+          devDependencies: {
+            "ember-source": "~3.12.0",
+            "ember-native-dom-event-dispatcher": null,
           },
-          npm: {
-            devDependencies: {
-              'ember-source': null,
-              'ember-native-dom-event-dispatcher': null
-            }
-          }
         },
-        {
-          name: 'ember-lts-2.8',
-          bower: {
-            dependencies: {
-              'ember': 'components/ember#lts-2-8'
-            },
-            resolutions: {
-              'ember': 'lts-2-8'
-            }
+      },
+      {
+        name: "ember-lts-3.28",
+        npm: {
+          devDependencies: {
+            "ember-source": "~3.12.0",
+            "ember-native-dom-event-dispatcher": null,
           },
-          npm: {
-            devDependencies: {
-              'ember-source': null,
-              'ember-native-dom-event-dispatcher': null
-            }
-          }
         },
-        {
-          name: 'ember-lts-2.12',
-          npm: {
-            devDependencies: {
-              'ember-source': '~2.12.0',
-              'ember-native-dom-event-dispatcher': null
-            },
-          }
+      },
+      {
+        name: "ember-canary",
+        allowedToFail: true,
+        npm: {
+          devDependencies: {
+            "ember-source": await getChannelURL("canary"),
+            "ember-native-dom-event-dispatcher": null,
+            "ember-auto-import": "~2.4.1",
+          },
+          ember: {
+            edition: "octane",
+          },
         },
-        {
-          name: 'ember-lts-2.16',
-          npm: {
-            devDependencies: {
-              'ember-source': '~2.16.0'
-            }
-          }
+      },
+      {
+        name: "ember-beta",
+        npm: {
+          devDependencies: {
+            "ember-source": await getChannelURL("beta"),
+            "ember-native-dom-event-dispatcher": null,
+            "ember-auto-import": "~2.4.1",
+          },
+          ember: {
+            edition: "octane",
+          },
         },
-        {
-          name: 'ember-canary',
-          allowedToFail: true,
-          npm: {
-            devDependencies: {
-              'ember-source': urls[2],
-              'ember-native-dom-event-dispatcher': null
-            }
-          }
+      },
+      {
+        name: "ember-release",
+        env: {
+          EMBER_OPTIONAL_FEATURES: JSON.stringify({
+            "application-template-wrapper": false,
+            "template-only-glimmer-components": true,
+          }),
         },
-        {
-          name: 'ember-beta',
-          npm: {
-            devDependencies: {
-              'ember-source': urls[1],
-              'ember-native-dom-event-dispatcher': null
-            }
-          }
+        npm: {
+          devDependencies: {
+            "ember-source": await getChannelURL("release"),
+            "@ember/optional-features": "~2.0.0",
+            "ember-native-dom-event-dispatcher": null,
+            "ember-auto-import": "~2.4.1",
+            webpack: "~5.72.1",
+          },
+          ember: {
+            edition: "octane",
+          },
         },
-        {
-          name: 'ember-release',
-          npm: {
-            devDependencies: {
-              'ember-source': urls[0]
-            }
-          }
-        },
-        {
-          name: 'ember-default',
-          npm: {
-            devDependencies: {}
-          }
-        },
-        {
-          name: 'ember-default-jquery',
-          npm: {
-            devDependencies: {
-              'ember-native-dom-event-dispatcher': null
-            }
-          }
-        }
-      ]
-    };
-  });
+      },
+    ],
+  };
 };
