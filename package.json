@@ -1,6 +1,6 @@
 {
-  "name": "torii",
-  "version": "0.10.1",
+  "name": "@adopted-ember-addons/torii",
+  "version": "1.0.0-dev.1",
   "description": "A set of clean abstractions for authentication in Ember.js",
   "keywords": [
     "authentication",
@@ -35,10 +35,10 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/vestorly/torii.git"
+    "url": "git://github.com/adopted-ember-addons/torii.git"
   },
   "bugs": {
-    "url": "https://github.com/vestorly/torii/issues"
+    "url": "https://github.com/adopted-ember-addons/torii/issues"
   },
   "scripts": {
     "build": "ember build",
