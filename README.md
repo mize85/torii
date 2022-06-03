@@ -7,7 +7,7 @@ The plan is to release a 1.0.0 that will be compatible with 3.15 (Octane) and up
 For safety reasons we have backed up the state before starting this work to the 0.10.x branch, so technically, if necessary,
 we would be able to maintain a 2.x compatible version but this is currently not a goal of this particular fork.
 
-![Torii Build status](https://github.com/@adopted-ember-addons/torii/actions/workflows/ci.yml/badge.svg)
+![Torii Build status](https://github.com/adopted-ember-addons/torii/actions/workflows/ci.yml/badge.svg)
 
 # Compatibility Matrix
 
