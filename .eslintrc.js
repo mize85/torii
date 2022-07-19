@@ -8,15 +8,10 @@ module.exports = {
       legacyDecorators: true
     }
   },
-  plugins: [
-    'ember'
-  ],
-  extends: [
-    'eslint:recommended',
-    'plugin:ember/recommended'
-  ],
+  plugins: ["ember"],
+  extends: ["eslint:recommended", "plugin:ember/recommended"],
   env: {
-    browser: true
+    browser: true,
   },
   rules: {
     "ember/avoid-leaking-state-in-ember-objects": 0,
@@ -42,17 +37,32 @@ module.exports = {
         'app/**',
         'tests/dummy/app/**'
       ],
+      excludedFiles: ["app/**", "addon/**", "tests/dummy/app/**"],
       parserOptions: {
-        sourceType: 'script'
+        sourceType: "script",
+        ecmaVersion: 2018,
       },
       env: {
         browser: false,
-        node: true
+        node: true,
       },
-      plugins: ['node'],
-      rules: Object.assign({}, require('eslint-plugin-node').configs.recommended.rules, {
-        // add your custom rules and overrides for node files here
-      })
-    }
-  ]
+      plugins: ["node"],
+      rules: Object.assign(
+        {},
+        require("eslint-plugin-node").configs.recommended.rules,
+        {
+          // add your custom rules and overrides for node files here
+        }
+      ),
+    },
+
+    // test files
+    {
+      files: ["tests/**/*.js"],
+      excludedFiles: ["tests/dummy/**/*.js"],
+      env: {
+        embertest: true,
+      },
+    },
+  ],
 };

@@ -1,8 +1,23 @@
-# WARNING :warning:
-This fork is offered with absolutely **no support** and no guarantees.
+# Ember 3.x/4.x upgrade in progress!
 
-# Compatibility
-Ember v3.8.0+
+We've moved torii to @adopted-ember-addons to make it ultimately compatible with versions of Ember past Octane (3.15).
+
+The plan is to release a 1.0.0 that will be compatible with 3.15 (Octane) and upwards but will not care for older versions.
+
+For safety reasons we have backed up the state before starting this work to the 0.10.x branch, so technically, if necessary,
+we would be able to maintain a 2.x compatible version but this is currently not a goal of this particular fork.
+
+![Torii Build status](https://github.com/adopted-ember-addons/torii/actions/workflows/ci.yml/badge.svg)
+
+# Compatibility Matrix
+
+|  Torii    | Ember   | Ember-Data         |
+|-----------|---------|--------------------|
+| v0.3.X and before    | <= 1.13 | <= 1.0.0.beta19.2  |
+| v0.4.X and after     | >= 1.12 | >= 1.0.0.beta19.2  |
+| v1.0.0 and after     | >= 3.15 (planned) | >= 3.15 |
+
+**tl;dr;** Use torii 0.3.X if your application is using Ember 1.11 or older, Use the latest 0.10.x version when on Ember 3.14 or older.
 
 # What is Torii?
 
