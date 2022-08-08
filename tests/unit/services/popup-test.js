@@ -71,39 +71,33 @@ module('Unit | Service | Popup', function (hooks) {
       return mockWindow;
     };
 
-    run(function () {
-      popup
-        .open(expectedUrl, ['code'])
-        .then(
-          function (data) {
-            assert.ok(true, 'resolves promise');
-            assert.equal(
-              popupId,
-              PopupIdSerializer.deserialize(mockWindow.name),
-              "sets the window's name properly"
-            );
-            assert.deepEqual(
-              data,
-              { code: 'fr' },
-              'resolves with expected data'
-            );
-            assert.equal(
-              null,
-              localStorage.getItem(CURRENT_REQUEST_KEY),
-              'removes the key from local storage'
-            );
-            assert.equal(
-              null,
-              localStorage.getItem(PopupIdSerializer.serialize(popupId)),
-              'removes the key from local storage'
-            );
-          },
-          function () {
-            assert.ok(false, 'rejected the open promise');
-          }
-        )
-        .finally(done);
-    });
+    popup
+      .open(expectedUrl, ['code'])
+      .then(
+        function (data) {
+          assert.ok(true, 'resolves promise');
+          assert.equal(
+            popupId,
+            PopupIdSerializer.deserialize(mockWindow.name),
+            "sets the window's name properly"
+          );
+          assert.deepEqual(data, { code: 'fr' }, 'resolves with expected data');
+          assert.equal(
+            null,
+            localStorage.getItem(CURRENT_REQUEST_KEY),
+            'removes the key from local storage'
+          );
+          assert.equal(
+            null,
+            localStorage.getItem(PopupIdSerializer.serialize(popupId)),
+            'removes the key from local storage'
+          );
+        },
+        function () {
+          assert.ok(false, 'rejected the open promise');
+        }
+      )
+      .finally(done);
 
     localStorage.setItem(PopupIdSerializer.serialize(popupId), redirectUrl);
     // Need to manually trigger storage event, since it doesn't fire in the current window
@@ -121,23 +115,21 @@ module('Unit | Service | Popup', function (hooks) {
       return closedWindow;
     };
 
-    run(function () {
-      popup
-        .open('http://some-url.com', ['code'])
-        .then(
-          function () {
-            assert.ok(false, 'resolves promise');
-          },
-          function () {
-            assert.ok(true, 'rejected the open promise');
-            assert.ok(
-              !localStorage.getItem(CURRENT_REQUEST_KEY),
-              'current request key is removed'
-            );
-          }
-        )
-        .finally(done);
-    });
+    popup
+      .open('http://some-url.com', ['code'])
+      .then(
+        function () {
+          assert.ok(false, 'resolves promise');
+        },
+        function () {
+          assert.ok(true, 'rejected the open promise');
+          assert.ok(
+            !localStorage.getItem(CURRENT_REQUEST_KEY),
+            'current request key is removed'
+          );
+        }
+      )
+      .finally(done);
   });
 
   test('open does not resolve when receiving a storage event for the wrong popup id', function (assert) {
@@ -148,19 +140,17 @@ module('Unit | Service | Popup', function (hooks) {
       return buildMockWindow();
     };
 
-    const promise = run(function () {
-      return popup
-        .open('http://someserver.com', ['code'])
-        .then(
-          function () {
-            assert.ok(false, 'resolves the open promise');
-          },
-          function () {
-            assert.ok(false, 'rejected the open promise');
-          }
-        )
-        .finally(done);
-    });
+    const promise = popup
+      .open('http://someserver.com', ['code'])
+      .then(
+        function () {
+          assert.ok(false, 'resolves the open promise');
+        },
+        function () {
+          assert.ok(false, 'rejected the open promise');
+        }
+      )
+      .finally(done);
 
     localStorage.setItem(
       PopupIdSerializer.serialize('invalid'),
@@ -192,19 +182,17 @@ module('Unit | Service | Popup', function (hooks) {
       return mockWindow;
     };
 
-    run(function () {
-      popup
-        .open('some-url', ['code'])
-        .then(
-          function () {
-            assert.ok(false, 'resolved the open promise');
-          },
-          function () {
-            assert.ok(true, 'rejected the open promise');
-          }
-        )
-        .finally(done);
-    });
+    popup
+      .open('some-url', ['code'])
+      .then(
+        function () {
+          assert.ok(false, 'resolved the open promise');
+        },
+        function () {
+          assert.ok(true, 'rejected the open promise');
+        }
+      )
+      .finally(done);
 
     mockWindow.closed = true;
   });
@@ -216,16 +204,14 @@ module('Unit | Service | Popup', function (hooks) {
       return mockWindow;
     };
 
-    run(function () {
-      popup.open('some-url', ['code']).then(
-        function () {
-          assert.ok(false, 'resolved the open promise');
-        },
-        function () {
-          assert.ok(false, 'rejected the open promise');
-        }
-      );
-    });
+    popup.open('some-url', ['code']).then(
+      function () {
+        assert.ok(false, 'resolved the open promise');
+      },
+      function () {
+        assert.ok(false, 'rejected the open promise');
+      }
+    );
 
     window.onbeforeunload();
 
