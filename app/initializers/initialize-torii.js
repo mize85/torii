@@ -13,7 +13,6 @@ var initializer = {
 
     configure(config.torii || {});
     bootstrapTorii(application);
-    application.inject('route', 'torii', 'service:torii');
   },
 };
 
