@@ -15,9 +15,25 @@ we would be able to maintain a 2.x compatible version but this is currently not 
 |-----------|---------|--------------------|
 | v0.3.X and before    | <= 1.13 | <= 1.0.0.beta19.2  |
 | v0.4.X and after     | >= 1.12 | >= 1.0.0.beta19.2  |
-| v1.0.0 and after     | >= 3.15 (planned) | >= 3.15 |
+| v1.0.0 and after     | >= 3.24 (planned) | >= 3.24 |
 
-**tl;dr;** Use torii 0.3.X if your application is using Ember 1.11 or older, Use the latest 0.10.x version when on Ember 3.14 or older, use 1.x when on Ember Octane or newer.
+**tl;dr;** Use torii 0.3.X if your application is using Ember 1.11 or older, Use the latest 1.0.x version when on Ember 3.24 or later.
+
+# Upgrading to 1.0.0
+
+v1.0.0 removes implicit injections as these are deprecated in Ember 3.x and removed in Ember 4.x. You must explicitly inject your
+session and torii services like so:
+
+```
+import Route from '@ember/routing/route';
+import AuthenticatedRouteMixin from 'torii/routing/authenticated-route-mixin';
+import { inject as service } from '@ember/service';
+
+export default class MyAuthenticatedRoute extends Route.extend(AuthenticatedRouteMixin) {
+  @service session;
+}
+```
+
 
 # What is Torii?
 
@@ -393,7 +409,7 @@ Then in `templates/application.hbs` you might have:
 
 Torii was originally configured to add an initializer that detects when your
 Ember app has been redirected-to by an OAuth provider, but this has been shown
-to be a potential vulnerability, and best practice is to use the static 
+to be a potential vulnerability, and best practice is to use the static
 `/torii/redirect.html` page that the Torii addon makes available as of version
 0.9.0.
 
@@ -448,7 +464,7 @@ export default Ember.Object.extend({
   // Create a new authorization.
   // When your code calls `this.get('torii').open('geocities', options)`,
   // the `options` will be passed to this provider's `open` method.
-  
+
   open: function(options) {
     return new Ember.RSVP.Promise(function(resolve, reject){
       // resolve with an authorization object
@@ -501,7 +517,7 @@ export default Ember.Route.extend({
         username: username,
         password: password
       };
-      
+
       this.get('torii').open(providerName, options).then(function(authorization){
         // authorization as returned by the provider
         route.somethingWithGeocitiesToken(authorization.sessionToken);

@@ -1,25 +1,27 @@
+/* eslint-disable no-prototype-builtins */
 import StateMachine from 'torii/lib/state-machine';
+import { set } from '@ember/object';
 
 var transitionTo = StateMachine.transitionTo;
 
 function copyProperties(data, target) {
   for (var key in data) {
     if (data.hasOwnProperty(key)) {
-      target[key] = data[key];
+      set(target, key, data[key]);
     }
   }
 }
 
 function transitionToClearing(target, propertiesToClear) {
-  return function(){
-    for (var i;i<propertiesToClear.length;i++) {
+  return function () {
+    for (var i; i < propertiesToClear.length; i++) {
       this[propertiesToClear[i]] = null;
     }
     this.transitionTo(target);
   };
 }
 
-export default function(session){
+export default function (session) {
   var sm = new StateMachine({
     initialState: 'unauthenticated',
 
@@ -29,13 +31,13 @@ export default function(session){
         isAuthenticated: false,
         // Actions
         startOpen: transitionToClearing('opening', ['errorMessage']),
-        startFetch: transitionToClearing('fetching', ['errorMessage'])
+        startFetch: transitionToClearing('fetching', ['errorMessage']),
       },
       authenticated: {
         // Properties
         currentUser: null,
         isAuthenticated: true,
-        startClose: transitionTo('closing')
+        startClose: transitionTo('closing'),
       },
       opening: {
         isWorking: true,
@@ -48,7 +50,7 @@ export default function(session){
         failOpen(errorMessage) {
           this.states['unauthenticated'].errorMessage = errorMessage;
           this.transitionTo('unauthenticated');
-        }
+        },
       },
       fetching: {
         isWorking: true,
@@ -61,7 +63,7 @@ export default function(session){
         failFetch(errorMessage) {
           this.states['unauthenticated'].errorMessage = errorMessage;
           this.transitionTo('unauthenticated');
-        }
+        },
       },
       closing: {
         isWorking: true,
@@ -74,9 +76,9 @@ export default function(session){
         failClose(errorMessage) {
           this.states['unauthenticated'].errorMessage = errorMessage;
           this.transitionTo('unauthenticated');
-        }
-      }
-    }
+        },
+      },
+    },
   });
   sm.session = session;
   return sm;

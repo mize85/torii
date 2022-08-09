@@ -1,13 +1,18 @@
+/* eslint-disable ember/require-computed-property-dependencies, ember/no-side-effects, ember/no-get */
 import { get, computed } from '@ember/object';
 
 const NAMESPACE = 'providers';
 let configuration = {};
 
-function configurable(configKey, defaultValue){
-  return computed(function configurableComputed(){
+function configurable(configKey, defaultValue) {
+  return computed(function configurableComputed() {
     // Trigger super wrapping in Ember 2.1.
     // See: https://github.com/emberjs/ember.js/pull/12359
-    this._super = this._super || (function(){ throw new Error('should always have _super'); })();
+    this._super =
+      this._super ||
+      (function () {
+        throw new Error('should always have _super');
+      })();
     var configNamespace = NAMESPACE + '.' + this.get('name');
     var propertyPath = configNamespace + '.' + configKey;
     let configuration = getConfiguration();
@@ -21,7 +26,12 @@ function configurable(configKey, defaultValue){
           return defaultValue;
         }
       } else {
-        throw new Error("Expected configuration value "+configKey+" to be defined for provider named " + this.get("name"));
+        throw new Error(
+          'Expected configuration value ' +
+            configKey +
+            ' to be defined for provider named ' +
+            this.get('name')
+        );
       }
     }
     return value;
@@ -36,6 +46,6 @@ function getConfiguration() {
   return configuration;
 }
 
-export {configurable, configure, getConfiguration};
+export { configurable, configure, getConfiguration };
 
 export default {};

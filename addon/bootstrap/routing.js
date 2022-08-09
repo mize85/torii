@@ -5,22 +5,30 @@ import { lookup, lookupFactory, register } from 'torii/lib/container-utils';
 var AuthenticatedRoute = null;
 
 function reopenOrRegister(applicationInstance, factoryName, mixin) {
-  var factory = lookup(applicationInstance, factoryName);
-  var basicFactory;
+  const factory = lookup(applicationInstance, factoryName);
 
   if (factory) {
     factory.reopen(mixin);
   } else {
-    basicFactory = lookupFactory(applicationInstance, 'route:basic');
+    const basicFactory = lookupFactory(applicationInstance, 'route:basic');
+
     if (!AuthenticatedRoute) {
       AuthenticatedRoute = basicFactory.extend(AuthenticatedRouteMixin);
     }
+
     register(applicationInstance, factoryName, AuthenticatedRoute);
   }
 }
 
-export default function toriiBootstrapRouting(applicationInstance, authenticatedRoutes){
-  reopenOrRegister(applicationInstance, 'route:application', ApplicationRouteMixin);
+export default function toriiBootstrapRouting(
+  applicationInstance,
+  authenticatedRoutes
+) {
+  reopenOrRegister(
+    applicationInstance,
+    'route:application',
+    ApplicationRouteMixin
+  );
   for (var i = 0; i < authenticatedRoutes.length; i++) {
     var routeName = authenticatedRoutes[i];
     var factoryName = 'route:' + routeName;

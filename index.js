@@ -2,8 +2,8 @@
 'use strict';
 
 module.exports = {
-  name: 'torii',
-  included: function(app) {
+  name: require('./package').name,
+  included: function (app) {
     var hostApp = this._findApp(app);
     var toriiConfig = hostApp.project.config(app.env)['torii'];
     if (!toriiConfig && hostApp === app) {
@@ -13,11 +13,11 @@ module.exports = {
     this._super.included(app);
   },
 
-  _findApp: function(hostApp) {
+  _findApp: function (hostApp) {
     var app = this.app || hostApp;
     while (app.app) {
       app = app.app;
     }
     return app;
-  }
+  },
 };
