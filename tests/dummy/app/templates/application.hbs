@@ -1,10 +1,13 @@
+{{! template-lint-disable no-action no-curly-component-invocation no-implicit-this require-button-type }}
+{{page-title "Torii"}}
+
 <h1>Torii Examples</h1>
 
 <h2>Torii: Example Usage</h2>
 
-<div class='providers'>
-  {{#each providers as |provider|}}
-    <div class='provider'>
+<div class="providers">
+  {{#each this.providers as |provider|}}
+    <div class="provider">
       <button {{action "authorize" provider}}>
         {{provider}}
       </button>
@@ -12,11 +15,12 @@
   {{/each}}
 </div>
 
-<div class='auth-data'>
-  Auth data: {{#if authData}}
-    {<pre>{{inspect-object authData}}</pre>}
+<div class="auth-data">
+  Auth data:
+  {{#if this.authData}}
+    {<pre>{{inspect-object this.authData}}</pre>}
   {{/if}}
 </div>
 <div>
-  Error data: {{error}}
+  Error data: {{this.error}}
 </div>

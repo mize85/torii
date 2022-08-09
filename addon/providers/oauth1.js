@@ -1,3 +1,4 @@
+/* eslint-disable ember/no-get */
 /*
  * This class implements authentication against an API
  * using the OAuth1.0a request token flow in a popup window.
@@ -16,14 +17,16 @@ var Oauth1 = Provider.extend({
   },
 
   open(options) {
-    var name        = this.get('name'),
-        url         = this.buildRequestTokenUrl();
+    var name = this.get('name'),
+      url = this.buildRequestTokenUrl();
 
-    return this.get('popup').open(url, ['code'], options).then(function(authData){
-      authData.provider = name;
-      return authData;
-    });
-  }
+    return this.get('popup')
+      .open(url, ['code'], options)
+      .then(function (authData) {
+        authData.provider = name;
+        return authData;
+      });
+  },
 });
 
 export default Oauth1;

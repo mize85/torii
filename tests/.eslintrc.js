@@ -1,8 +1,2 @@
-module.exports = {
-  env: {
-    embertest: true
-  },
-  globals: {
-    "Ember": false
-  }
-};
+/* eslint-disable no-undef */
+module.exports = {};
