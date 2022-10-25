@@ -7,6 +7,13 @@
     "ember.js",
     "ember-addon"
   ],
+  "bugs": {
+    "url": "https://github.com/adopted-ember-addons/torii/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/adopted-ember-addons/torii.git"
+  },
   "license": "MIT",
   "author": {
     "name": "Vestorly",
@@ -14,14 +21,11 @@
   },
   "maintainers": [
     {
-      "name": "Matt Beale",
-      "email": "matt.beale@madhatted.com"
-    },
-    {
-      "name": "Cory Forsyth",
-      "email": "cory.forsyth@gmail.com"
+      "name": "Jan Krutisch",
+      "email": "jan@krutisch.de"
     }
   ],
+  "main": "index.js",
   "files": [
     "index.js",
     "addon/",
@@ -29,14 +33,6 @@
     "public/",
     "test-support/"
   ],
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/adopted-ember-addons/torii.git"
-  },
-  "bugs": {
-    "url": "https://github.com/adopted-ember-addons/torii/issues"
-  },
   "scripts": {
     "build": "ember build --environment=production",
     "lint": "npm-run-all --aggregate-output --continue-on-error --parallel \"lint:!(fix)\"",
@@ -93,16 +89,36 @@
     "prettier": "^2.5.1",
     "qunit": "^2.17.2",
     "qunit-dom": "^1.6.0",
+    "release-it": "^14.2.1",
+    "release-it-lerna-changelog": "^3.1.0",
     "webpack": "5"
   },
   "engines": {
     "node": "12.* || 14.* || >= 16"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "ember": {
     "edition": "octane"
   },
   "ember-addon": {
-    "demoUrl": "http://vestorly.github.io/torii/demo.html",
+    "demoUrl": "http://adopted-ember-addons.github.io/torii/demo.html",
     "configPath": "tests/dummy/config"
+  },
+  "release-it": {
+    "plugins": {
+      "release-it-lerna-changelog": {
+        "infile": "CHANGELOG.md",
+        "launchEditor": true
+      }
+    },
+    "git": {
+      "tagName": "v${version}"
+    },
+    "github": {
+      "release": true,
+      "tokenRef": "GITHUB_AUTH"
+    }
   }
 }
