@@ -1,8 +1,8 @@
-# Ember 3.x/4.x upgrade in progress!
+# A new home for torii
 
-We've moved torii to [adopted-ember-addons](https://github.com/adopted-ember-addons) to make it ultimately compatible with versions of Ember past Octane (3.15).
+We've moved torii to [adopted-ember-addons](https://github.com/adopted-ember-addons) to reactivate the project and make it compatible with current versions of Ember
 
-The plan is to release a 1.0.0 that will be compatible with 3.15 (Octane) and upwards but will not care for older versions.
+We will shortly release a 1.0.0 that will be compatible with Ember 3.24 and upwards but will not care for older versions.
 
 For safety reasons we have backed up the state before starting this work to the 0.10.x branch, so technically, if necessary,
 we would be able to maintain a 2.x compatible version but this is currently not a goal of this particular fork.
@@ -34,15 +34,12 @@ export default class MyAuthenticatedRoute extends Route.extend(AuthenticatedRout
 }
 ```
 
-
 # What is Torii?
 
 Torii is a set of clean abstractions for authentication in [Ember.js](http://emberjs.com/)
 applications. Torii is built with **providers** (authentication against a platform), a
 **session manager** (for maintaining the current user), and **adapters** (to persist
 authentication state).
-
-[![Introduction to Torii](https://i.vimeocdn.com/video/545363474.jpg?mw=640&mh=360&q=70)](https://vimeo.com/146851881)
 
 The API for providers and adapters in Torii is to **open**, by which we mean creating a new
 authorization or authenticating a new session, **fetch**, by which we mean validating
@@ -755,3 +752,7 @@ application' own authentication solution. There are always a few things
 we could use help with.
 
 We welcome your contributions!
+
+## Code of Conduct
+
+As a member of the [adopted ember addons](https://github.com/adopted-ember-addons) family, this project uses the [Ember community guidelines](https://emberjs.com/guidelines/)
