@@ -1,7 +1,6 @@
 /* eslint-disable ember/avoid-leaking-state-in-ember-objects, ember/no-get */
 import { Promise as EmberPromise } from 'rsvp';
 import { run } from '@ember/runloop';
-import { assign } from '@ember/polyfills';
 import OAuth2Code from 'torii/providers/oauth2-code';
 import { configurable } from 'torii/configuration';
 
@@ -102,7 +101,10 @@ var GoogleOauth2BearerV2 = OAuth2Code.extend({
               // authentication data and resolve
               run(() =>
                 resolve(
-                  assign(authData, { provider: name, redirectUri: redirectUri })
+                  Objetc.assign(authData, {
+                    provider: name,
+                    redirectUri: redirectUri,
+                  })
                 )
               );
             } else if (jsonResponse.audience === undefined) {
