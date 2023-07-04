@@ -16,8 +16,6 @@ module('Integration | Session (open)', function (hooks) {
     this.owner.register('service:session', SessionService);
     this.owner.register('torii-provider:dummy-success', DummySuccessProvider);
     this.owner.register('torii-provider:dummy-failure', DummyFailureProvider);
-    this.owner.inject('service:session', 'torii', 'service:torii');
-
     session = this.owner.lookup('service:session');
   });
 
@@ -76,7 +74,6 @@ module('Integration | Session (close) ', function (hooks) {
 
   hooks.beforeEach(function () {
     this.owner.register('service:session', SessionService);
-    this.owner.inject('service:session', 'torii', 'service:torii');
     session = this.owner.lookup('service:session');
     adapter = this.owner.lookup('torii-adapter:application');
 
