@@ -10,12 +10,11 @@
 import { Promise as EmberPromise } from 'rsvp';
 
 import EmberObject from '@ember/object';
-import EmberError from '@ember/error';
 
 import { CURRENT_REQUEST_KEY, WARNING_KEY } from './mixins/ui-service-mixin';
 import configuration from 'torii/configuration';
 
-export class ToriiRedirectError extends EmberError {
+export class ToriiRedirectError extends Error {
   constructor() {
     super(...arguments);
     this.name = 'ToriiRedirectError';
