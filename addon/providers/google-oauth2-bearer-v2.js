@@ -101,7 +101,7 @@ var GoogleOauth2BearerV2 = OAuth2Code.extend({
               // authentication data and resolve
               run(() =>
                 resolve(
-                  Objetc.assign(authData, {
+                  Object.assign(authData, {
                     provider: name,
                     redirectUri: redirectUri,
                   })
