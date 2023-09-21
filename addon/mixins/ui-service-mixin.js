@@ -48,10 +48,13 @@ let ServicesMixin = Mixin.create({
 
       postMessageToriiEventHandler = function (event) {
         if (event.origin !== window.location.origin) {
-          console.log("NOT ORIGIN!!!")
+          console.log("Event received is not from ORIGIN!!!")
           return;
         }
-
+        if (event.source !== service.remote) {
+          console.log("Event received is not from REMOTE!!!")
+          return;
+        }
         const remoteIdFromEvent = event.data.remoteId;
         if (remoteId === remoteIdFromEvent) {
           const data = parseMessage(event.data.data, keys);
