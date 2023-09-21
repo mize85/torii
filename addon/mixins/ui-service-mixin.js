@@ -13,11 +13,11 @@ export const CURRENT_REQUEST_KEY = '__torii_request';
 export const WARNING_KEY = '__torii_redirect_warning';
 
 function parseMessage(url, keys) {
-  var parser = ParseQueryString.create({ url: url, keys: keys });
+  const parser = ParseQueryString.create({ url: url, keys: keys });
   return parser.parse();
 }
 
-var ServicesMixin = Mixin.create({
+let ServicesMixin = Mixin.create({
   init() {
     this._super(...arguments);
     this.remoteIdGenerator = this.remoteIdGenerator || UUIDGenerator;
@@ -44,20 +44,17 @@ var ServicesMixin = Mixin.create({
         service.close();
       }
 
-      var remoteId = service.remoteIdGenerator.generate();
+      const remoteId = service.remoteIdGenerator.generate();
 
       postMessageToriiEventHandler = function (event) {
-        console.log("message", event);
-
         if (event.origin !== window.location.origin) {
           console.log("NOT ORIGIN!!!")
           return;
         }
 
-
-        var remoteIdFromEvent = event.data.remoteId;
+        const remoteIdFromEvent = event.data.remoteId;
         if (remoteId === remoteIdFromEvent) {
-          var data = parseMessage(event.data.data, keys);
+          const data = parseMessage(event.data.data, keys);
           run(function () {
             resolve(data);
           });
@@ -67,7 +64,7 @@ var ServicesMixin = Mixin.create({
       service.openRemote(url, remoteId, options);
       service.schedulePolling();
 
-      var onbeforeunload = window.onbeforeunload;
+      const onbeforeunload = window.onbeforeunload;
       window.onbeforeunload = function () {
         if (typeof onbeforeunload === 'function') {
           onbeforeunload();
