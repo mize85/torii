@@ -5,10 +5,10 @@
     <title>Torii OAuth Redirect</title>
     <script>
       console.log("name", window.name);
-      console.log("window.parent", window.parent);
+      console.log("window.opener", window.opener);
 
-      if (window.name) {
-        window.parent.postMessage({remoteId: window.name, data: window.location.toString()}, window.location.origin);
+      if (window.name && window.opener) {
+        window.opener.postMessage({remoteId: window.name, data: window.location.toString()}, window.location.origin);
       }
       // window.close();
     </script>
