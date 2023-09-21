@@ -78,7 +78,6 @@ var ServicesMixin = Mixin.create({
       if (service.remote && !service.remote.closed) {
         service.remote.focus();
       } else {
-        localStorage.removeItem(CURRENT_REQUEST_KEY);
         reject(new Error('remote could not open or was closed'));
         return;
       }

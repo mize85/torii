@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <title>Torii OAuth Redirect</title>
     <script>
+      console.log("name", window.name);
+      console.log("window.parent", window.parent);
+
       if (window.name) {
-        var url = window.location.toString();
-        window.parent.postMessage({remoteId: window.name, data: url}, window.location.origin);
+        window.parent.postMessage({remoteId: window.name, data: window.location.toString();}, window.location.origin);
       }
-      window.close();
+      // window.close();
     </script>
   </head>
 </html>
