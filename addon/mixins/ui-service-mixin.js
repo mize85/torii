@@ -1,20 +1,20 @@
 /* eslint-disable ember/no-new-mixins */
-import { later, run, cancel } from '@ember/runloop';
-import { Promise as EmberPromise } from 'rsvp';
+import {cancel, later, run} from '@ember/runloop';
+import {Promise as EmberPromise} from 'rsvp';
 import Mixin from '@ember/object/mixin';
-import { on } from '@ember/object/evented';
+import {on} from '@ember/object/evented';
 import UUIDGenerator from 'torii/lib/uuid-generator';
 import PopupIdSerializer from 'torii/lib/popup-id-serializer';
 import ParseQueryString from 'torii/lib/parse-query-string';
 import assert from 'torii/lib/assert';
+import {getConfiguration} from 'torii/configuration';
+
 export const CURRENT_REQUEST_KEY = '__torii_request';
 export const WARNING_KEY = '__torii_redirect_warning';
-import { getConfiguration } from 'torii/configuration';
 
 function parseMessage(url, keys) {
   var parser = ParseQueryString.create({ url: url, keys: keys });
-  var data = parser.parse();
-  return data;
+  return parser.parse();
 }
 
 var ServicesMixin = Mixin.create({
@@ -37,7 +37,7 @@ var ServicesMixin = Mixin.create({
   open(url, keys, options) {
     let service = this;
     let lastRemote = this.remote;
-    let storageToriiEventHandler;
+    let postMessageToriiEventHandler;
 
     return new EmberPromise(function (resolve, reject) {
       if (lastRemote) {
@@ -45,21 +45,26 @@ var ServicesMixin = Mixin.create({
       }
 
       var remoteId = service.remoteIdGenerator.generate();
-      storageToriiEventHandler = function (storageEvent) {
-        var remoteIdFromEvent = PopupIdSerializer.deserialize(storageEvent.key);
+
+      postMessageToriiEventHandler = function (event) {
+        console.log("message", event);
+
+        if (event.origin !== window.location.origin) {
+          console.log("NOT ORIGIN!!!")
+          return;
+        }
+
+
+        var remoteIdFromEvent = event.remoteId;
         if (remoteId === remoteIdFromEvent) {
-          var data = parseMessage(storageEvent.newValue, keys);
-          localStorage.removeItem(storageEvent.key);
+          var data = parseMessage(event.data, keys);
           run(function () {
             resolve(data);
           });
         }
       };
-      var pendingRequestKey = PopupIdSerializer.serialize(remoteId);
-      localStorage.setItem(CURRENT_REQUEST_KEY, pendingRequestKey);
-      localStorage.removeItem(WARNING_KEY);
 
-      service.openRemote(url, pendingRequestKey, options);
+      service.openRemote(url, remoteId, options);
       service.schedulePolling();
 
       var onbeforeunload = window.onbeforeunload;
@@ -79,24 +84,6 @@ var ServicesMixin = Mixin.create({
       }
 
       service.one('didClose', function () {
-        let hasWarning = localStorage.getItem(WARNING_KEY);
-        if (hasWarning) {
-          localStorage.removeItem(WARNING_KEY);
-          let configuration = getConfiguration();
-
-          assert(
-            `[Torii] Using an OAuth redirect that loads your Ember App is deprecated and will be
-              removed in a future release, as doing so is a potential security vulnerability.
-              Hide this message by setting \`allowUnsafeRedirect: true\` in your Torii configuration.
-          `,
-            configuration.allowUnsafeRedirect
-          );
-        }
-        var pendingRequestKey = localStorage.getItem(CURRENT_REQUEST_KEY);
-        if (pendingRequestKey) {
-          localStorage.removeItem(pendingRequestKey);
-          localStorage.removeItem(CURRENT_REQUEST_KEY);
-        }
         // If we don't receive a message before the timeout, we fail. Normally,
         // the message will be received and the window will close immediately.
         service.timeout = later(
@@ -111,11 +98,11 @@ var ServicesMixin = Mixin.create({
           100
         );
       });
-      window.addEventListener('storage', storageToriiEventHandler);
+      window.addEventListener('message', postMessageToriiEventHandler);
     }).finally(function () {
       // didClose will reject this same promise, but it has already resolved.
       service.close();
-      window.removeEventListener('storage', storageToriiEventHandler);
+      window.removeEventListener('message', postMessageToriiEventHandler);
     });
   },
 
