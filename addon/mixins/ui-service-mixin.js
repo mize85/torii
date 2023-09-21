@@ -55,9 +55,9 @@ var ServicesMixin = Mixin.create({
         }
 
 
-        var remoteIdFromEvent = event.remoteId;
+        var remoteIdFromEvent = event.data.remoteId;
         if (remoteId === remoteIdFromEvent) {
-          var data = parseMessage(event.data, keys);
+          var data = parseMessage(event.data.data, keys);
           run(function () {
             resolve(data);
           });
